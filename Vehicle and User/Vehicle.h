@@ -25,7 +25,7 @@ class Vehicle{
         }
 
         virtual void display(){
-            cout << "Vehicle Number: " << vehicleNo << endl;
+            cout << "Vehicle Number: " << getVehicleNo() << endl;
             cout << "Vehicle Type: " << getVehicleType() << endl;
         }
 
@@ -35,15 +35,12 @@ class Vehicle{
 
 class car: public Vehicle{
     public:
-        car(string number):Vehicle(number, "Car"){
-        }
+        car(string number):Vehicle(number, "Car"){}
 };
 
 class bike: public Vehicle{
     public:
-        bike(string number):Vehicle(number, "Bike"){
-
-        }
+        bike(string number):Vehicle(number, "Bike"){}
 };
 
 #endif

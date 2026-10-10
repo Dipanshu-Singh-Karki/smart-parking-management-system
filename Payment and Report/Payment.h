@@ -15,8 +15,8 @@ struct Payment{
 extern Payment payments[100];
 extern int paymentCount;
 
-void calculatePayment();
 void displayPayments();
 void generateReport();
+void addPayment(string vehicleNumber, string vehicleType, int hours, int amount);
 
 #endif

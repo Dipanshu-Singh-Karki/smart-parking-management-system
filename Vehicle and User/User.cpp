@@ -11,6 +11,10 @@ string User::getName(){
     return name;
 }
 
+Vehicle* User::getVehicle(){
+    return vehicle;
+}
+
 void User::display(){
     cout << endl;
     cout << "User Name: " << name << endl;

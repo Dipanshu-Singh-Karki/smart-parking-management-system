@@ -1,8 +1,8 @@
 #include<iostream>
-#include"Vehicle and User\User.h"
-#include"Parking SLot Allocation\Parking.h"
-#include"Navigation and Reservation\Graph.h"
-#include"Payment and Report\Payment.h"
+#include"Vehicle and User/User.h"
+#include"Parking SLot Allocation/Parking.h"
+#include"Navigation and Reservation/Graph.h"
+#include"Payment and Report/Payment.h"
 using namespace std;
 
 int main(){
@@ -22,10 +22,9 @@ int main(){
         cout << "9. BFS route\n";
         cout << "10. Make reservation\n";
         cout << "11. Display reservation\n";
-        cout << "12. Calculate Payment\n";
-        cout << "13. Display Payments\n";
-        cout << "14. Generate Daily Report\n";
-        cout << "15. Exit\n";
+        cout << "12. Display Payments\n";
+        cout << "13. Generate Daily Report\n";
+        cout << "14. Exit\n";
         cout << "\nEnter the choice: ";
         cin>> choice;
 
@@ -64,15 +63,12 @@ int main(){
                 displayReservation();
                 break;
             case 12:
-                calculatePayment();
-                break;
-            case 13:
                 displayPayments();
                 break;
-            case 14:
+            case 13:
                 generateReport();
                 break;
-            case 15:
+            case 14:
                 cout <<"\nTHANK YOU\n";
                 return 0;
             default:

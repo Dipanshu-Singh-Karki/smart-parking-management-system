@@ -18,6 +18,8 @@ class User{
 
         string getName();
 
+        Vehicle* getVehicle();
+
         void display();
 };
 

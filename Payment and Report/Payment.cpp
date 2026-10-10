@@ -3,40 +3,6 @@
 Payment payments[100];
 int paymentCount = 0;
 
-void calculatePayment(){
-    if(paymentCount==100){
-        cout << "\nPayment list Full\n";
-        return;
-    }
-    Payment p;
-    cout << "Enter vehicle no.: ";
-    cin >> p.vehicleNumber;
-
-    cout << "Vehicle Type:\n";
-    cout << "1. Car\n2.Bike\n";
-    cout << "Enter the choice: ";
-    int choice;
-    cin >> choice;
-    if(choice==1){
-        p.vehicleType = "Car";
-    }else{
-        p.vehicleType = "Bike";
-    }
-    cout << "Enter parking hours: ";
-    cin >> p.hours;
-
-    if(p.vehicleType=="Car"){
-        p.amount = p.hours * 40;
-    }else{
-        p.amount = p.hours *20;
-    }
-
-    payments[paymentCount++] = p;
-
-    cout << "\nPayment generated successfully\n";
-    cout << "Total amount = Rs. " << p.amount << endl;
-}
-
 void displayPayments(){
     if(paymentCount==0){
         cout << "\nNo payment record\n";
@@ -71,4 +37,12 @@ void generateReport(){
     cout << "Cars Parked: " << totalCars << endl;
     cout << "Bikes Parked: " << totalBikes << endl;
     cout << "Total Revenue: Rs." << totalCollection << endl;
+}
+
+void addPayment(string vehicleNumber, string vehicleType, int hours, int amount){
+    payments[paymentCount].vehicleNumber = vehicleNumber;
+    payments[paymentCount].vehicleType = vehicleType;
+    payments[paymentCount].hours = hours;
+    payments[paymentCount].amount = amount;
+    paymentCount++;
 }
