@@ -30,7 +30,7 @@ struct Node{
     Node *next;
 };
 
-extern ParkingSlot slots[10];
+extern ParkingSlot slots[12];
 extern WaitingQueue queue;
 extern Node *head;
 

@@ -8,23 +8,25 @@ using namespace std;
 int main(){
     initializeParking();
     initializeGraph();
+    cout << graph[0].name << endl;
+cout << graph[1].name << endl;
+cout << graph[2].name << endl;
+cout << graph[11].name << endl;
     int choice;
     do{
-        cout << "\nSMART PARKING MANAGEMENT SYSTEM\n";
-        cout << "1. Register user\n";
-        cout << "2. Display users\n";
-        cout << "3. Display parking slots\n";
-        cout << "4. Park vehicle\n";
-        cout << "5. Remove vehicle\n";
-        cout << "6. Display waiting queue\n";
-        cout << "7. Display parking history\n";
-        cout << "8. Display parking map\n";
-        cout << "9. BFS route\n";
-        cout << "10. Make reservation\n";
-        cout << "11. Display reservation\n";
-        cout << "12. Display Payments\n";
-        cout << "13. Generate Daily Report\n";
-        cout << "14. Exit\n";
+        cout << "1. Register User\n";
+        cout << "2. Display Users\n";
+        cout << "3. Display Parking Slots\n";
+        cout << "4. Park Vehicle\n";
+        cout << "5. Remove Vehicle\n";
+        cout << "6. Display Waiting Queue\n";
+        cout << "7. Display Parking History\n";
+        cout << "8. Display Parking Map\n";
+        cout << "9. Make Reservation\n";
+        cout << "10. Display Reservations\n";
+        cout << "11. Display Payments\n";
+        cout << "12. Generate Daily Report\n";
+        cout << "13. Exit\n";
         cout << "\nEnter the choice: ";
         cin>> choice;
 
@@ -51,29 +53,33 @@ int main(){
                 displayHistory();
                 break;
             case 8:
-                displayMap();
+                displayParkingMap();
                 break;
             case 9:
-                BFS(0);
+            {
+                string vehicle;
+                int slot;
+                cout << "\nEnter Vehicle Number : ";
+                cin >> vehicle;
+                cout << "Enter Slot Number (1-12) : ";
+                cin >> slot;
+                reserveSlot(vehicle, slot);
                 break;
+            }
             case 10:
-                makeReservation();
+                displayReservations();
                 break;
             case 11:
-                displayReservation();
-                break;
-            case 12:
                 displayPayments();
                 break;
-            case 13:
+            case 12:
                 generateReport();
                 break;
-            case 14:
-                cout <<"\nTHANK YOU\n";
+            case 13:
+                cout << "\nThank You.\n";
                 return 0;
             default:
-                cout << "Invalid Choice\n";
-                break;
+                cout << "\nInvalid Choice.\n";
         }
     }while(1);
     return 0;

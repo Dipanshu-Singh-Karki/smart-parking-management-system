@@ -1,8 +1,9 @@
 #include"Parking.h"
 #include"../Vehicle and User/User.h"
 #include"../Payment and Report/Payment.h"
+#include"../Navigation and Reservation/Graph.h"
 
-ParkingSlot slots[10];
+ParkingSlot slots[12];
 
 WaitingQueue queue;
 
@@ -10,7 +11,7 @@ Node *head = NULL;
 
 void initializeParking(){
 
-    for(int i=0; i<10; i++){
+    for(int i=0; i<12; i++){
         slots[i].slotNumber = i+1;
         slots[i].occupied = false;
         slots[i].vehicleNumber = "";
@@ -29,8 +30,8 @@ void initializeQueue(){
 
 void displaySlots(){
     cout << "\nParking Slots: \n";
-    for(int i=0; i<10; i++){
-        cout << "Slot " << slots[i].slotNumber << ": ";
+    for(int i=0; i<12; i++){
+        cout << "Slot P" << slots[i].slotNumber << ": ";
         if(slots[i].occupied){
             cout<<"Occupied (" << slots[i].vehicleNumber <<", "<< slots[i].vehicleType<< ")";
         }else{
@@ -38,6 +39,7 @@ void displaySlots(){
         }
         cout << endl;
     }
+    cout << endl;
 }
 
 void enqueue(string vehicle, int type){
@@ -140,14 +142,35 @@ void parkVehicle(){
     cin >> hrs;
     cout << "Entry minute: ";
     cin >> mins;
-    for(int i=0;i<10; i++){
-        if(!slots[i].occupied){
+
+    if(hasReservation(vehicle)){
+        int reservedSlot = getReservedSlot(vehicle);
+        int index = reservedSlot-1;
+        if(slots[index].occupied){
+            cout << "\nReserved slot already occupied\n";
+            return;
+        }
+        slots[index].occupied = true;
+        slots[index].vehicleNumber = vehicle;
+        slots[index].vehicleType = type;
+        slots[index].hours = hrs;
+        slots[index].minutes = mins;
+
+        cout << "\nVehicle pparked at slot P" << reservedSlot << endl;
+        addHistory(vehicle, reservedSlot, "Reserved Parking", hrs, mins);
+        navigateToSlot(reservedSlot);
+        return;
+    }
+
+    for(int i=0;i<12; i++){
+        if(!slots[i].occupied && !isSlotReserved(i+1)){
             slots[i].vehicleNumber = vehicle;
             slots[i].occupied = true;
             slots[i].vehicleType = type;
             slots[i].hours = hrs; slots[i].minutes = mins;
             cout << "\nVehicle parked at Slot " << slots[i].slotNumber << endl;
             addHistory(vehicle, slots[i].slotNumber, "Parked",hrs, mins);
+            navigateToSlot(slots[i].slotNumber);
             return;
         }
     }
@@ -157,6 +180,7 @@ void parkVehicle(){
     }else{
         enqueue(vehicle, 2);
     }
+    
     return;
 }
 
@@ -171,7 +195,7 @@ void removeVehicle(){
     cin >> hrs;
     cout << "Exit minute: ";
     cin >> mins;
-    for(int i=0; i<10; i++){
+    for(int i=0; i<12; i++){
         if(vehicle==slots[i].vehicleNumber){
             int entry, exit, duration, totalHours;
             entry = slots[i].hours*60 + slots[i].minutes;

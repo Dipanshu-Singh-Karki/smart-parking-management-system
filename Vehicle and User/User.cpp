@@ -20,6 +20,7 @@ void User::display(){
     cout << "User Name: " << name << endl;
     cout << "Vehicle Number: " << vehicle->getVehicleNo() << endl;
     cout << "Vehicle Type: " << vehicle->getVehicleType() << endl;
+    cout << endl;
 }
 
 void registerUser(){
