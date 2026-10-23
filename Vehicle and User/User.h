@@ -16,6 +16,7 @@ class User{
     Vehicle *vehicle;
 
     public:
+        User();
         User(string n, Vehicle *v);
 
         string getName();

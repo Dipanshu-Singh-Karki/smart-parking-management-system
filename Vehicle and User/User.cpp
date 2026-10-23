@@ -2,6 +2,11 @@
 
 vector<User> users;
 
+User::User(){
+    name = "";
+    vehicle = NULL;
+}
+
 User::User(string n, Vehicle *v){
     name = n;
     vehicle = v;
@@ -16,6 +21,7 @@ Vehicle* User::getVehicle(){
 }
 
 void saveUserToFile(User user){
+    cout << "\nIn save to file\n";
     ofstream file("user.txt", ios::app);
     if(!file){
         cout << "Error opening 'user.txt'\n";
@@ -79,7 +85,7 @@ void displayUser(){
 
 
 void loadUsersFromFile(){
-    ifstream file("users.txt");
+    ifstream file("user.txt");
 
     if(!file){
         return;
@@ -115,39 +121,12 @@ void loadUsersFromFile(){
 }
 
 bool findUserByVehicleNumber(string vehicleNumber, User &user){
-    ifstream file("users.txt");
-
-    if(!file){
-        return false;
-    }
-
-    string line;
-    string name;
-    string number;
-    string type;
-
-    while(getline(file, line)){
-        stringstream ss(line);
-
-        getline(ss, name, ',');
-        getline(ss, number, ',');
-        getline(ss, type);
-
-        if(number==vehicleNumber){
-            Vehicle *vehicle = NULL;
-            if(type=="Car"){
-                vehicle = new car(number);
-            }else if(type =="Bike"){
-                vehicle = new bike(number);
-            }
-            if(vehicle !=NULL){
-                user = User(name, vehicle);
-                file.close();
-                return true;
-            }
+    for(int i = 0; i<users.size(); i++){
+        if(users[i].getVehicle()->getVehicleNo()==vehicleNumber){
+            user = users[i];
+            return true;
         }
     }
-    file.close();
     return false;
 }
 
