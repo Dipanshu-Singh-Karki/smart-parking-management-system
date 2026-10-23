@@ -91,6 +91,10 @@ void loadUsersFromFile(){
     string vehicleType;
 
     while(getline(file, line)){
+        if(line == "")
+        {
+            continue;
+        }
         stringstream ss(line);
         getline(ss, name, ',');
         getline(ss, vehicleNo, ',');
