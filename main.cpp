@@ -8,10 +8,8 @@ using namespace std;
 int main(){
     initializeParking();
     initializeGraph();
-    cout << graph[0].name << endl;
-cout << graph[1].name << endl;
-cout << graph[2].name << endl;
-cout << graph[11].name << endl;
+    initializeUsers();
+    
     int choice;
     do{
         cout << "1. Register User\n";

@@ -4,6 +4,8 @@
 #include<iostream>
 #include<string>
 #include<vector>
+#include<fstream>
+#include<sstream>
 #include"Vehicle.h"
 
 using namespace std;
@@ -28,5 +30,13 @@ extern vector<User> users;
 void registerUser();
 
 void displayUser();
+
+bool findUserByVehicleNumber(string vehicleNumber, User &user);
+
+void saveUserToFile(User user);
+
+void loadUsersFromFile();
+
+void initializeUsers();
 
 #endif

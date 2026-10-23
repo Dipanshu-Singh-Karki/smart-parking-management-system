@@ -15,6 +15,20 @@ Vehicle* User::getVehicle(){
     return vehicle;
 }
 
+void saveUserToFile(User user){
+    ofstream file("user.txt", ios::app);
+    if(!file){
+        cout << "Error opening 'user.txt'\n";
+        return;
+    }
+
+    file << user.getName() << ","
+         << user.getVehicle()->getVehicleNo() << ","
+         << user.getVehicle()->getVehicleType() << endl;
+
+    file.close();
+}
+
 void User::display(){
     cout << endl;
     cout << "User Name: " << name << endl;
@@ -47,6 +61,7 @@ void registerUser(){
 
     User u(name, v);
     users.push_back(u);
+    saveUserToFile(u);
 
     cout << "\nUser registered successfully\n";
 }
@@ -60,4 +75,79 @@ void displayUser(){
     for(int i=0; i<users.size(); i++){
         users[i].display();
     }
+}
+
+
+void loadUsersFromFile(){
+    ifstream file("users.txt");
+
+    if(!file){
+        return;
+    }
+
+    string line;
+    string name;
+    string vehicleNo;
+    string vehicleType;
+
+    while(getline(file, line)){
+        stringstream ss(line);
+        getline(ss, name, ',');
+        getline(ss, vehicleNo, ',');
+        getline(ss, vehicleType);
+
+        Vehicle *vehicle = NULL;
+        if(vehicleType=="Car"){
+            vehicle = new car(vehicleNo);
+        }else if(vehicleType=="Bike"){
+            vehicle = new bike(vehicleNo);
+        }
+
+        if(vehicle!=NULL){
+            users.push_back(User(name, vehicle));
+        }
+    }
+    file.close();
+}
+
+bool findUserByVehicleNumber(string vehicleNumber, User &user){
+    ifstream file("users.txt");
+
+    if(!file){
+        return false;
+    }
+
+    string line;
+    string name;
+    string number;
+    string type;
+
+    while(getline(file, line)){
+        stringstream ss(line);
+
+        getline(ss, name, ',');
+        getline(ss, number, ',');
+        getline(ss, type);
+
+        if(number==vehicleNumber){
+            Vehicle *vehicle = NULL;
+            if(type=="Car"){
+                vehicle = new car(number);
+            }else if(type =="Bike"){
+                vehicle = new bike(number);
+            }
+            if(vehicle !=NULL){
+                user = User(name, vehicle);
+                file.close();
+                return true;
+            }
+        }
+    }
+    file.close();
+    return false;
+}
+
+void initializeUsers(){
+    users.clear();
+    loadUsersFromFile();
 }
