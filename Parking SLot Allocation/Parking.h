@@ -2,7 +2,8 @@
 #define PARKING_H
 
 #include<iostream>
-#include<string.h>
+#include<string>
+#include<fstream>
 using namespace std;
 
 struct ParkingSlot{
@@ -46,6 +47,6 @@ void dequeue();
 void displayQueue();
 void addHistory(string vehicle, int slot, string action, int hrs, int mins);
 void displayCurrentParkingHistory();
-void displayPermanentHistory();
+void displayPermanentParkingHistory();
 
 #endif

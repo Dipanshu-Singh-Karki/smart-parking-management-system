@@ -3,7 +3,7 @@
 Payment payments[100];
 int paymentCount = 0;
 
-void displayPayments(){
+void displayCurrentPayments(){
     if(paymentCount==0){
         cout << "\nNo payment record\n";
         return;
@@ -37,6 +37,7 @@ void generateReport(){
     cout << "Cars Parked: " << totalCars << endl;
     cout << "Bikes Parked: " << totalBikes << endl;
     cout << "Total Revenue: Rs." << totalCollection << endl;
+    cout << endl;
 }
 
 void addPayment(string vehicleNumber, string vehicleType, int hours, int amount){
@@ -44,5 +45,40 @@ void addPayment(string vehicleNumber, string vehicleType, int hours, int amount)
     payments[paymentCount].vehicleType = vehicleType;
     payments[paymentCount].hours = hours;
     payments[paymentCount].amount = amount;
+    ofstream file("paymentHistory.txt");
+    if(!file){
+        cout << "\nError in opening 'parkingHistory.txt'\n";
+        return;
+    }
+    file << payments[paymentCount].vehicleNumber << ","
+         << payments[paymentCount].vehicleType << ","
+         << payments[paymentCount].hours << ","
+         << payments[paymentCount].amount << endl;
+    file.close();
     paymentCount++;
+}
+
+void displayPremanentPaymentHistory(){
+    ifstream file("parkingHistory.txt");
+    if(!file){
+        cout << "\nError in opepning 'parkingHistory.txt'\n";
+        return;
+    }
+
+    cout << "\nPermanent payment History: \n";
+    string vehicle;
+    string type;
+    string hours;
+    string amount;
+    while(getline(file, vehicle, ',') &&
+          getline(file, type, ',') &&
+          getline(file, hours, ',') &&
+          getline(file, amount)){
+            cout << "Vehicle Number: " << vehicle << endl;
+            cout << "Vehicle type : " << type << endl;
+            cout << "Hours: " << hours << endl;
+            cout << "Amount: Rs." << amount << endl;
+            cout << endl;
+          }
+    file.close();
 }

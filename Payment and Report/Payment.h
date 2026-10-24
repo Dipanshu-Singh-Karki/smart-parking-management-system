@@ -3,6 +3,7 @@
 
 #include<iostream>
 #include<string>
+#include<fstream>
 using namespace std;
 
 struct Payment{
@@ -15,8 +16,9 @@ struct Payment{
 extern Payment payments[100];
 extern int paymentCount;
 
-void displayPayments();
+void displayCurrentPayments();
 void generateReport();
 void addPayment(string vehicleNumber, string vehicleType, int hours, int amount);
+void displayPremanentPaymentHistory();
 
 #endif

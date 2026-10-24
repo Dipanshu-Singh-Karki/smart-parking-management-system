@@ -21,7 +21,6 @@ Vehicle* User::getVehicle(){
 }
 
 void saveUserToFile(User user){
-    cout << "\nIn save to file\n";
     ofstream file("user.txt", ios::app);
     if(!file){
         cout << "Error opening 'user.txt'\n";

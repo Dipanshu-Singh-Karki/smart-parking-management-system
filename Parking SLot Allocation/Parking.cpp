@@ -125,7 +125,7 @@ void displayCurrentParkingHistory(){
     }
 }
 
-void displayPermanentHistory(){
+void displayPermanentParkingHistory(){
     ifstream file("parkingHistory.txt");
 
     if(!file){
@@ -155,7 +155,7 @@ void displayPermanentHistory(){
             cout << mins << endl;
             cout << endl;
         }
-        file.close();
+    file.close();
 
 }
 
