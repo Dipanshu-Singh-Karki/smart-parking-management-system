@@ -103,7 +103,7 @@ void addHistory(string vehicle, int slot, string action,int hrs, int mins){
     head = temp;
 }
 
-void displayHistory(){
+void displayCurrentParkingHistory(){
     Node *temp = head;
     if(temp==nullptr){
         cout << "\nNo History\n";
@@ -111,10 +111,52 @@ void displayHistory(){
     }
     cout << "\nParking History: \n";
     while(temp!=nullptr){
-        cout << temp->vehicleNumber << " - " << temp->action << " - Slot " << temp->slotNumber <<
-        " - Time: " <<temp->hours<< ":"<<temp->minutes<< endl;
+        cout << "Vehicle Number: "<< temp->vehicleNumber << endl;
+        cout << "Slot Number: P"<< temp->slotNumber << endl;
+        cout << "Action: "<< temp->action << endl;
+        cout << "Time: "<< temp->hours << ":";
+        if(temp->minutes<10){
+            cout << "0";
+        }
+        cout << temp->minutes << endl;
+        cout << endl;
+
         temp = temp->next;
     }
+}
+
+void displayPermanentHistory(){
+    ifstream file("parkingHistory.txt");
+
+    if(!file){
+        cout << "\nNo parking history found\n";
+        return;
+    }
+    string vehicleNo;
+    string slotNo;
+    string action;
+    string hrs;
+    string mins;
+
+    cout << "\nPermanant parkinh history:\n";
+
+    while(getline(file, vehicleNo, ',') &&
+          getline(file, slotNo, ',') &&
+          getline(file, action, ',') &&
+          getline(file, hrs, ',') &&
+          getline(file, mins)){
+            cout << "Vehicle Number: " << vehicleNo << endl;
+            cout << "slot Number: " << slotNo << endl;
+            cout << "Action: " << action << endl;
+            cout << "Time: "<< hrs << ":";
+            if(mins.length()==1){
+                cout << "0";
+            }
+            cout << mins << endl;
+            cout << endl;
+        }
+        file.close();
+
 }
 
 Vehicle* searchVehicle(string number){
@@ -170,6 +212,17 @@ void parkVehicle(){
             slots[i].hours = hrs; slots[i].minutes = mins;
             cout << "\nVehicle parked at Slot " << slots[i].slotNumber << endl;
             addHistory(vehicle, slots[i].slotNumber, "Parked",hrs, mins);
+            ofstream file("parkingHistory.txt", ios::app);
+            if(!file){
+                cout <<"\nError in opening 'parkingHistory.txt'\n";
+            }else{
+                file << vehicle << ","
+                     << "P" << slots[i].slotNumber << ","
+                     << "Parked" << ","
+                     << hrs << ","
+                     << mins << endl;
+                file.close();
+            }
             navigateToSlot(slots[i].slotNumber);
             return;
         }
@@ -221,6 +274,17 @@ void removeVehicle(){
             slots[i].hours = 0;
             slots[i].minutes = 0;
             addHistory(vehicle,slots[i].slotNumber, "Removed", hrs, mins);
+            ofstream file("parkingHistory.txt", ios::app);
+            if(!file){
+                cout <<"\nError in opening 'parkingHistory.txt'\n";
+            }else{
+                file << vehicle << ","
+                     << "P" << slots[i].slotNumber << ","
+                     << "Removed" << ","
+                     << hrs << ","
+                     << mins << endl;
+                file.close();
+            }
             cout << "\nVehicle Removed\n";
             
             

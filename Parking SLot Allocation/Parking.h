@@ -45,6 +45,7 @@ void enqueue(string vehicle, int type);
 void dequeue();
 void displayQueue();
 void addHistory(string vehicle, int slot, string action, int hrs, int mins);
-void displayHistory();
+void displayCurrentParkingHistory();
+void displayPermanentHistory();
 
 #endif

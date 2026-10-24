@@ -18,13 +18,14 @@ int main(){
         cout << "4. Park Vehicle\n";
         cout << "5. Remove Vehicle\n";
         cout << "6. Display Waiting Queue\n";
-        cout << "7. Display Parking History\n";
-        cout << "8. Display Parking Map\n";
-        cout << "9. Make Reservation\n";
-        cout << "10. Display Reservations\n";
-        cout << "11. Display Payments\n";
-        cout << "12. Generate Daily Report\n";
-        cout << "13. Exit\n";
+        cout << "7. Display Current Parking History\n";
+        cout << "8. Display Permanent Parking History\n";
+        cout << "9. Display Parking Map\n";
+        cout << "10. Make Reservation\n";
+        cout << "11. Display Reservations\n";
+        cout << "12. Display Payments\n";
+        cout << "13. Generate Daily Report\n";
+        cout << "14. Exit\n";
         cout << "\nEnter the choice: ";
         cin>> choice;
 
@@ -48,12 +49,15 @@ int main(){
                 displayQueue();
                 break;
             case 7:
-                displayHistory();
+                displayCurrentParkingHistory();
                 break;
             case 8:
-                displayParkingMap();
+                displayPermanentHistory();
                 break;
             case 9:
+                displayParkingMap();
+                break;
+            case 10:
             {
                 string vehicle;
                 int slot;
@@ -64,16 +68,16 @@ int main(){
                 reserveSlot(vehicle, slot);
                 break;
             }
-            case 10:
+            case 11:
                 displayReservations();
                 break;
-            case 11:
+            case 12:
                 displayPayments();
                 break;
-            case 12:
+            case 13:
                 generateReport();
                 break;
-            case 13:
+            case 14:
                 cout << "\nThank You.\n";
                 return 0;
             default:
