@@ -26,6 +26,9 @@ void generateReport(){
     
     for(int i=0; i<paymentCount; i++){
         totalCollection += payments[i].amount;
+        if(payments[i].vehicleType=="Reservation"){
+            continue;
+        }
         if(payments[i].vehicleType=="Car"){
             totalCars++;
         }else{
@@ -33,7 +36,7 @@ void generateReport(){
         }
     }
     cout << "\nDaily Report\n";
-    cout << "\nTotal Vehicles: " << paymentCount << endl;
+    cout << "\nTotal Vehicles: " << totalCars + totalBikes << endl;
     cout << "Cars Parked: " << totalCars << endl;
     cout << "Bikes Parked: " << totalBikes << endl;
     cout << "Total Revenue: Rs." << totalCollection << endl;
@@ -41,13 +44,17 @@ void generateReport(){
 }
 
 void addPayment(string vehicleNumber, string vehicleType, int hours, int amount){
+    if(paymentCount>=100){
+        cout << "\nPayment records full\n";
+        return;
+    }
     payments[paymentCount].vehicleNumber = vehicleNumber;
     payments[paymentCount].vehicleType = vehicleType;
     payments[paymentCount].hours = hours;
     payments[paymentCount].amount = amount;
     ofstream file("paymentHistory.txt", ios::app);
     if(!file){
-        cout << "\nError in opening 'parkingHistory.txt'\n";
+        cout << "\nError in opening 'paymentHistory.txt'\n";
         return;
     }
     file << payments[paymentCount].vehicleNumber << ","
@@ -61,7 +68,7 @@ void addPayment(string vehicleNumber, string vehicleType, int hours, int amount)
 void displayPremanentPaymentHistory(){
     ifstream file("paymentHistory.txt");
     if(!file){
-        cout << "\nError in opepning 'parkingHistory.txt'\n";
+        cout << "\nError in opepning 'paymentHistory.txt'\n";
         return;
     }
 
