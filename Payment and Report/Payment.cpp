@@ -45,7 +45,7 @@ void addPayment(string vehicleNumber, string vehicleType, int hours, int amount)
     payments[paymentCount].vehicleType = vehicleType;
     payments[paymentCount].hours = hours;
     payments[paymentCount].amount = amount;
-    ofstream file("paymentHistory.txt");
+    ofstream file("paymentHistory.txt", ios::app);
     if(!file){
         cout << "\nError in opening 'parkingHistory.txt'\n";
         return;
@@ -59,7 +59,7 @@ void addPayment(string vehicleNumber, string vehicleType, int hours, int amount)
 }
 
 void displayPremanentPaymentHistory(){
-    ifstream file("parkingHistory.txt");
+    ifstream file("paymentHistory.txt");
     if(!file){
         cout << "\nError in opepning 'parkingHistory.txt'\n";
         return;

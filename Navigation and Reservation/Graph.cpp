@@ -1,5 +1,7 @@
 #include "Graph.h"
 #include "../Payment and Report/Payment.h"
+#include "../Vehicle and User/User.h"
+#include "../Parking SLot Allocation/Parking.h"
 
 GraphNode graph[MAX_NODES];
 
@@ -209,6 +211,15 @@ int getReservedSlot(string vehicleNumber){
 }
 
 bool reserveSlot(string vehicleNumber, int slotNumber){
+    if(slotNumber<1||slotNumber>12){
+        cout << "\nInvalid Slot Number\n";
+        return false;
+    }
+    User u;
+    if(!findUserByVehicleNumber(vehicleNumber, u)){
+        cout << "\nVehicle not registered\n";
+        return false;
+    }
     if(hasReservation(vehicleNumber)){
         cout << "\nVehicle already has a reservation\n";
         return false;
@@ -217,19 +228,32 @@ bool reserveSlot(string vehicleNumber, int slotNumber){
         cout << "\nSlot already reserved\n";
         return false;
     }
-    if(slotNumber<1||slotNumber>12){
-        cout << "\nInvalid slot number\n";
+    if(slots[slotNumber-1].occupied){
+        cout << "\nSlot is already occupied\n";
+        return false;
+    }
+    int index = reservationCount;
+    for(int i=0; i<reservationCount; i++){
+        if(!reservations[i].active){
+            index = i;
+            break;
+        }
+    }
+    if(index>=MAX_RESERVSTIONS){
+        cout << "\nReservation list full\n";
         return false;
     }
 
     int advanceAmount = 50;
     cout << "Reservation Charge: Rs " << advanceAmount << endl;
     addPayment(vehicleNumber, "Reservation", 0, advanceAmount);
-    reservations[reservationCount].vehicleNumber = vehicleNumber;
-    reservations[reservationCount].slotNumber = slotNumber;
-    reservations[reservationCount].active = true;
-    reservations[reservationCount].paymentDone = true;
-    reservationCount++;
+    reservations[index].vehicleNumber = vehicleNumber;
+    reservations[index].slotNumber = slotNumber;
+    reservations[index].active = true;
+    reservations[index].paymentDone = true;
+    if(index==reservationCount){
+        reservationCount++;
+    }
 
     cout << "\nReservation Successful\n";
     cout << "Vehicle: "<< vehicleNumber << endl;
@@ -264,11 +288,11 @@ void displayReservations(){
         if(reservations[i].active){
             cout << "\nVehcile Number: "<< reservations[i].vehicleNumber << endl;
             cout << "Reserved slot: P"<< reservations[i].slotNumber << endl;
-        }
-        if(reservations[i].paymentDone){
-            cout << "Advance payment: (Rs. 50)Paid\n";
-        }else{
-            cout << "Advance payment: Pending\n";
+            if(reservations[i].paymentDone){
+                cout << "Advance payment: (Rs. 50)Paid\n";
+            }else{
+                cout << "Advance payment: Pending\n";
+            }
         }
     }
     cout << endl;
