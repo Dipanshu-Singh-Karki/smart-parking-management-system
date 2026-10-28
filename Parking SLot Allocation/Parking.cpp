@@ -168,6 +168,20 @@ Vehicle* searchVehicle(string number){
     return nullptr;
 }
 
+void saveHistoryToFile(string vehicle, int slot, string action, int hrs, int mins){
+    ofstream file("parkingHistory.txt", ios::app);
+    if(!file){
+        cout << "\nError in opening 'parkingHistory.txt'\n";
+        return;
+    }
+    file << vehicle << ","
+         << "P" << slot << ","
+         << action << ","
+         << hrs << ","
+         << mins << endl;
+    file.close();
+}
+
 void parkVehicle(){
     string vehicle;
     cout << "\nEnter the vehicle Number: ";
@@ -176,6 +190,18 @@ void parkVehicle(){
     if(v==nullptr){
         cout << "\nVehicle not registered\n";
         return;
+    }
+    for(int i=0; i<12; i++){
+        if(slots[i].vehicleNumber==vehicle){
+            cout << "\nVehicle already parked\n";
+            return;
+        }
+    }
+    for(int i=queue.front; i<=queue.rear; i++){
+        if(queue.waiting[i]==vehicle){
+            cout << "\nVehicle aready in waiting queue\n";
+            return;
+        }
     }
     string type = v->getVehicleType();
     cout << "Enter the entry time \n";
@@ -200,6 +226,7 @@ void parkVehicle(){
 
         cout << "\nVehicle pparked at slot P" << reservedSlot << endl;
         addHistory(vehicle, reservedSlot, "Reserved Parking", hrs, mins);
+        saveHistoryToFile(vehicle, reservedSlot, "Reserved Parking", hrs, mins);
         navigateToSlot(reservedSlot);
         return;
     }
@@ -273,6 +300,11 @@ void removeVehicle(){
             slots[i].vehicleType = "";
             slots[i].hours = 0;
             slots[i].minutes = 0;
+            for(int r=0; r<reservationCount; r++){
+                if(reservations[r].vehicleNumber==vehicle){
+                    reservations[r].active = false;
+                }
+            }
             addHistory(vehicle,slots[i].slotNumber, "Removed", hrs, mins);
             ofstream file("parkingHistory.txt", ios::app);
             if(!file){
@@ -288,7 +320,7 @@ void removeVehicle(){
             cout << "\nVehicle Removed\n";
             
             
-            if(queue.front<=queue.rear){
+            if(queue.front<=queue.rear && !isSlotReserved(slots[i].slotNumber)){
                 string nextVehicle = getFrontVehicle();
                 int nextVehicleType = getFrontType();
                 dequeue();
@@ -304,9 +336,10 @@ void removeVehicle(){
                 cout << "Next Vehicle " << nextVehicle << " parked at " << slots[i].slotNumber;
                 cout << endl;
                 addHistory(nextVehicle,slots[i].slotNumber, "Parked", hrs, mins);
+                saveHistoryToFile(nextVehicle, slots[i].slotNumber, "Parked", hrs, mins);
             }
             return;
-        }
+        }   
     }
     cout << "\nVehicle NOT Found\n";
 }
