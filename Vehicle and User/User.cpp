@@ -23,7 +23,7 @@ Vehicle* User::getVehicle(){
 void saveUserToFile(User user){
     ofstream file("user.txt", ios::app);
     if(!file){
-        cout << "Error opening 'user.txt'\n";
+        cout << "Error in opening 'user.txt'\n";
         return;
     }
 
@@ -42,6 +42,15 @@ void User::display(){
     cout << endl;
 }
 
+bool vehicleNumberExists(const string &vehicleNumber){
+    for(size_t i = 0; i<users.size(); i++){
+        if(users[i].getVehicle()->getVehicleNo() == vehicleNumber){
+            return true;
+        }
+    }
+    return false;
+}
+
 void registerUser(){
     string name;
     string number;
@@ -52,6 +61,10 @@ void registerUser(){
     getline(cin, name);
     cout << "Enter user's vehicle number: ";
     getline(cin, number);
+    if(vehicleNumberExists(number)){
+        cout << "\nUser with this vehicle number is already registered\n";
+        return;
+    }
     cout<< "\nVehicle Type\n";
     cout << "1. Car\n2. Bike\n";
     cout << "Enter the choice: ";
@@ -87,6 +100,7 @@ void loadUsersFromFile(){
     ifstream file("user.txt");
 
     if(!file){
+        cout << "Error in opening 'user.txt'\n";
         return;
     }
 

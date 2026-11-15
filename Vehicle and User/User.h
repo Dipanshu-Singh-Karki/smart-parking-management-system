@@ -40,4 +40,5 @@ void loadUsersFromFile();
 
 void initializeUsers();
 
+bool vehicleNumberExists(const string &vehicleNumber);
 #endif
